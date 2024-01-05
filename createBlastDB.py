@@ -2,14 +2,12 @@ import os
 import subprocess
 import argparse
 
-def combine_fasta_files(input_folder, output_file):
-    with open(output_file, 'w') as outfile:
-        for filename in os.listdir(input_folder):
-            if filename.endswith('.fasta') or filename.endswith('.fa'):
-                filepath = os.path.join(input_folder, filename)
-                with open(filepath, 'r') as infile:
-                    for line in infile:
-                        outfile.write(line)
+def combine_fasta_files_with_cat(input_folder, output_file):
+    # Construct the shell command
+    cat_command = f"cat {os.path.join(input_folder, '*.fasta')} {os.path.join(input_folder, '*.fa')} > {output_file}"
+
+    # Execute the shell command
+    subprocess.run(cat_command, shell=True, check=True)
 
 def create_blast_db(combined_fasta, db_name, db_type='nucl'):
     cmd = f'makeblastdb -in {combined_fasta} -dbtype {db_type} -out {db_name}'
