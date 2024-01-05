@@ -1,0 +1,2 @@
+qseqid,sseqid,length,qlen,sstart,send,score,evalue,spacer_sequence
+RandomSequence_pos34,RandomSequence_1,37,37,1,37,37,9.97e-17,AGCGAATCCGTGTAAAATCCAATCACCGTCAGTTTCA
