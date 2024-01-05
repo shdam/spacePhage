@@ -5,7 +5,7 @@ import argparse
 def combine_fasta_files(input_folder, output_file):
     with open(output_file, 'w') as outfile:
         for filename in os.listdir(input_folder):
-            if filename.endswith('.fasta'):
+            if filename.endswith('.fasta') or filename.endswith('.fa'):
                 filepath = os.path.join(input_folder, filename)
                 with open(filepath, 'r') as infile:
                     for line in infile:
