@@ -16,7 +16,6 @@ DB_NAME="blastdb/blast_database"
 OUTPUT_FILE="blast_results.csv"
 
 # Create BLAST database from genome FASTA files
-cat "$GENOME_FOLDER"/*.{fasta,fa} > "$GENOME_FOLDER"/"combined.fasta"
 python3 "$CREATE_BLAST_DB_SCRIPT" -i "$GENOME_FOLDER" -o "$DB_NAME"
 
 # Run analysis on phage FASTA file

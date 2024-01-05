@@ -1,13 +1,19 @@
 import os
 import subprocess
 import argparse
+import glob
 
 def combine_fasta_files(input_folder, output_file):
-    # Construct the shell command
-    cat_command = f'cat {input_folder}/*.{fasta,fa} > {combined_fasta}'
+    # Find all FASTA files (.fasta and .fa) in the input folder
+    fasta_files = glob.glob(os.path.join(input_folder, '*.fasta')) + glob.glob(os.path.join(input_folder, '*.fa'))
 
-    # Execute the shell command
-    subprocess.run(cat_command, shell=True, check=True)
+    # Concatenate the content of all found FASTA files into one output file
+    with open(output_file, 'w') as outfile:
+        for file in fasta_files:
+            with open(file, 'r') as infile:
+                outfile.write(infile.read())
+                outfile.write('\n')  # Ensure separation between files
+
 
 def create_blast_db(combined_fasta, db_name, db_type='nucl'):
     cmd = f'makeblastdb -in {combined_fasta} -dbtype {db_type} -out {db_name}'
@@ -23,7 +29,7 @@ def main():
 
     # Kombinerer FASTA-filer til én enkelt fil
     combined_fasta = os.path.join(args.input_folder, 'combined.fasta')
-    #combine_fasta_files(args.input_folder, combined_fasta)
+    combine_fasta_files(args.input_folder, combined_fasta)
 
     # Opretter BLAST-database
     create_blast_db(combined_fasta, args.db_name, args.db_type)

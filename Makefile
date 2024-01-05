@@ -11,7 +11,7 @@ SCRIPT_DIR=/usr/local/bin
 
 install: setup_scripts
 	@echo "Installing Python dependencies..."
-	pip install -r requirements.txt
+	pip3 install -r requirements.txt
 	@echo "Checking if BLAST is installed..."
 	@if [ -x "$(BLAST_PATH)/blastn" ]; then 		echo "BLAST is already installed."; 	else 		echo "BLAST is not installed. Please install BLAST from https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/"; 	fi
 	@echo "Installation completed."
