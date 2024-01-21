@@ -19,7 +19,7 @@ OUTPUT_FILE="blast_results.csv"
 python3 "$CREATE_BLAST_DB_SCRIPT" -i "$GENOME_FOLDER" -o "$DB_NAME"
 
 # Run analysis on phage FASTA file
-python3 "$SPACE_PHAGE_SCRIPT" -p "$PHAGE_FASTA" -d "$DB_NAME" -o "$OUTPUT_FILE"
+python3 "$SPACE_PHAGE_SCRIPT" -p "$PHAGE_FASTA" -d "$DB_NAME" -o "$OUTPUT_FILE" -g "$GENOME_FOLDER"
 
 echo "BLAST analysis completed. Results saved in $OUTPUT_FILE"
 echo "Cleaning temporary files"
