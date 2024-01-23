@@ -39,7 +39,7 @@ def run_blast(phage_file, db_name, genome_folder, output_file, min_score=37, spa
     # Process and save the output as CSV
     with open(output_file, 'w', newline='') as csvfile:
         writer = csv.writer(csvfile, delimiter=',')
-        writer.writerow(['qseqid', 'sseqid', 'length', 'qlen', 'sstart', 'send', 'score', 'evalue', 'spacer_sequence', '3nt_pre', '3nt_post', 'bacterial_sequence'])
+        writer.writerow(['qseqid', 'sseqid', 'length', 'qlen', 'sstart', 'send', 'score', 'evalue', 'spacer_sequence', '3nt_pre', '3nt_post', 'bacterial_pre', 'bacterial_post'])
         for line in result.stdout.splitlines():
             row = line.split('\t')
             if int(row[6]) >= min_score:
@@ -51,12 +51,17 @@ def run_blast(phage_file, db_name, genome_folder, output_file, min_score=37, spa
                 #writer.writerow(row + [phage_seq.seq[spacer_start:spacer_start + spacer_length], pre_flank, post_flank])
 
                 if row[1] in combined_sequences:
-                    start = max(0, int(row[4]) - 30)
-                    end = min(len(combined_sequences[row[1]].seq), int(row[5]) + 29)
-                    bacterial_sequence = str(combined_sequences[row[1]].seq[start:end])
+                    if int(row[5]) < int(row[4]):
+                        start=int(row[5])-1
+                        end=int(row[4])
+                    else:
+                        start=int(row[4])-1
+                        end=int(row[5])
+                    bacterial_pre = str(combined_sequences[row[1]].seq[start-29:start])
+                    bacterial_post = str(combined_sequences[row[1]].seq[end:end+29])
                 else:
                     bacterial_sequence = 'Sequence not found'
-                writer.writerow(row + [phage_seq.seq[spacer_start:spacer_start + spacer_length], pre_flank, post_flank] + [bacterial_sequence])
+                writer.writerow(row + [phage_seq.seq[spacer_start:spacer_start + spacer_length], pre_flank, post_flank] + [bacterial_pre, bacterial_post])
 
     # Remove the temporary file
     os.remove(temp_query_file)
