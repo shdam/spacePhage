@@ -15,7 +15,7 @@ def extract_sequence(sequence, start, end, flank_length=3):
     print(post_flank)
     return sequence[start-1:end], pre_flank, post_flank
 
-def run_blast(phage_file, db_name, genome_folder, output_file, min_score=37, spacer_length=37):
+def run_blast(phage_file, db_name, genome_folder, output_file, min_score=36, spacer_length=36):
     # Load and process the phage sequence
     phage_seq = SeqIO.read(phage_file, 'fasta')
     spacers = split_sequence(str(phage_seq.seq), spacer_length)
@@ -72,7 +72,7 @@ def main():
     parser.add_argument('-p', '--phage', required=True, help='FASTA file containing the phage sequence')
     parser.add_argument('-d', '--database', required=True, help='Name of the BLAST database to search against')
     parser.add_argument('-o', '--output', required=True, help='CSV file to write BLAST search results')
-    parser.add_argument('-s', '--min_score', type=int, default=37, help='Minimum score to include in the results')
+    parser.add_argument('-s', '--min_score', type=int, default=36, help='Minimum score to include in the results')
     parser.add_argument('-g', '--genome_folder', required=True, help='Folder containing the combined genome FASTA file')
 
     args = parser.parse_args()
